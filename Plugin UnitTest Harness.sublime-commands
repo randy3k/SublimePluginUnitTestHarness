@@ -1,0 +1,5 @@
+[
+	{ "caption": "Plugin UnitTest Harness: Run Example Tests", 
+	  "command": "run_plugin_unittest", 
+	  "args": {"module": "Plugin UnitTest Harness.sublime_unittest.tests"} }
+]
