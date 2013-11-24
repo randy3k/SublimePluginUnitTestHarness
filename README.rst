@@ -68,8 +68,6 @@ my_fancy_plugin/tests/test_first_collection.py
         from sublime_unittest import TestCase
         import sublime
 
-        I_want_to_use_default_10ms = False
-
         class MyTest(TestCase):
 
             def test_first(self):
