@@ -2,6 +2,13 @@ from unittest import loader
 import sublime, sublime_plugin
 from .sublime_unittest import DeferrableSuite, DeferringTextTestRunner
 
+from imp import reload
+from .sublime_unittest import case, edit, runner, suite
+#reload(case)
+#reload(edit)
+#reload(runner)
+#reload(suite)
+
 ST3 = sublime.version() >= '3000'
 
 class OutputPanel:

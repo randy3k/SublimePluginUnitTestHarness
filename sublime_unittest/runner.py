@@ -66,14 +66,31 @@ class DeferringTextTestRunner(runner.TextTestRunner):
                 self.stream.write("\n")
             return result
 
+        def _wait_condition():
+            result = self.condition()
+
+            if not result:
+                assert (time.time() - self.condition_start_time) < 10, "Timeout, waited longer than 10s till condition true"
+                sublime.set_timeout(_wait_condition, 10)
+
+            else:
+                sublime.set_timeout(_continue_testing, 10)
+
+
         def _continue_testing():
             try:
                 delay = next(deferred)
 
-                if not isinstance(delay, int):
-                    delay = 10
+                if callable(delay):
+                    self.condition = delay
+                    self.condition_start_time = time.time()
+                    sublime.set_timeout(_wait_condition, 10)
 
-                sublime.set_timeout(_continue_testing, delay)
+                else:
+                    if not isinstance(delay, int):
+                        delay = 10
+
+                    sublime.set_timeout(_continue_testing, delay)
 
             except StopIteration:
                 stopTestRun = getattr(result, 'stopTestRun', None)
